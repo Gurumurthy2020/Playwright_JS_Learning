@@ -7,6 +7,7 @@ import { defineConfig, devices } from '@playwright/test';
  */
 const config={
   testDir: './tests',
+  outputDir: './test-results/playwright-report',
   timeout : 40 * 1000,
   expect:{
   timeout : 40 * 1000,
@@ -14,8 +15,9 @@ const config={
   use: {
 
     browserName:'chromium',
- 
-    trace: 'on-first-retry',
+    headless: false,
+    screenshot:'on',
+     trace: 'retain-on-failure'
   },
 };
 module.exports=config;
