@@ -1,5 +1,5 @@
 const {test,expect} = require('@playwright/test');
-const { allowedNodeEnvironmentFlags } = require('process');
+// const { allowedNodeEnvironmentFlags } = require('process');
 
 test('practise session',async({page})=>
 {
@@ -37,7 +37,7 @@ test("second pract",async({page})=>
 
 })
 
-test.only("third practise child window",async({browser})=>
+test("third practise child window",async({browser})=>
 {
         const context=await browser.newContext();
         const page=await context.newPage();
