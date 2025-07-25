@@ -17,17 +17,12 @@ const config={
   reporter:'html',
 
   use: {
-
+    
     browserName:'chromium',
-<<<<<<< HEAD
     headless: false,
     screenshot:'on',
      trace: 'retain-on-failure'
-=======
-    headless:false,
- 
-    trace: 'on-first-retry',
->>>>>>> 1cd10d71a3734644a3c25f72799b8c48f16b1286
+  
   },
 };
 module.exports=config;
