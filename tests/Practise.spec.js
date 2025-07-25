@@ -60,3 +60,37 @@ test("third practise child window",async({browser})=>
  
 });
 
+test.only("practising end to end",async({page})=>
+{
+    const expectedProductName="Fancy Green Top";
+    await page.goto("https://automationexercise.com/login");
+    await page.locator("[data-qa='login-email']").fill("Muruga@2025");
+    await page.locator("[data-qa='login-password']").fill("Muruga@2025");
+    await page.locator("[data-qa='login-button']").click();
+    await expect(page).toHaveTitle("Automation Exercise");
+    const productcount=await page.locator("div.text-center").count();
+    console.log(productcount);
+    console.log(await page.locator(".productinfo p").allTextContents());
+ 
+    for (let i = 0; i < productcount; i++) {
+  const item = page.locator(".productinfo p").nth(i);
+  await item.scrollIntoViewIfNeeded();
+  const itemText = await item.textContent();
+
+  if (itemText?.trim() === expectedProductName) {
+    console.log(itemText);
+    await page.locator(".productinfo a").nth(i).locator('text=Add to cart').click();
+    break; // Optional: stop after adding the desired product
+  }
+}
+    await page.locator("p.text-center a").click();
+    await page.locator("a:has-text('Fancy Green Top')").first().waitFor();
+    const bool=await page.locator("a:has-text('Fancy Green Top')").isVisible();
+    await expect(bool).toBeTruthy();
+
+    await page.locator("text=Proceed To Checkout").click();
+    expect(await page.locator("text=Address Details").isVisible());
+    await page.locator("text=Place Order").click();
+})
+
+
