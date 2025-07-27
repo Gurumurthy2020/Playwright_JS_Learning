@@ -136,7 +136,7 @@ test("e2e with a new page",async({page})=>
   await page.pause();
 })
 
-test.only("e2e with multiple windows",async({browser})=>{
+test("e2e with multiple windows",async({browser})=>{
   const context=await browser.newContext();
   const page= await context.newPage();
   await page.goto("https://practice.expandtesting.com/");
@@ -155,4 +155,37 @@ test.only("e2e with multiple windows",async({browser})=>{
   expect(newwindowmsg.includes("Example of a new window page for Automation Testing Practice")).toBeTruthy();
   await page.bringToFront();
 
+})
+
+test.only("practising chain of locators",async({page})=>
+{
+  await page.goto("https://practice.expandtesting.com/locators#google_vignette");
+  await page.locator("table.legacy-table").scrollIntoViewIfNeeded();
+  const rowlocator=await page.locator("table.legacy-table tbody tr td");
+  const count=await rowlocator.count();
+  console.log(count);
+  for(let i=0;i<count;i++)
+  {
+      const tabletext=await rowlocator.nth(i).textContent();
+      console.log(tabletext);
+      if(tabletext.includes("Keyboard"))
+      {
+        const stockvalue=await rowlocator.nth(8).textContent();
+        console.log(stockvalue);
+        break;
+      }
+        }
+
+   for(let i=0;i<count;i++)
+    {
+      const tt=await rowlocator.nth(i).textContent();
+      if(tt.includes("Available"))
+      {
+        const stocks=await rowlocator.nth(i+1).textContent();
+         const products=await rowlocator.nth(i-1).textContent();
+         console.log(products);
+        console.log("stocks"+stocks);
+      }
+    }     
+        //await page.pause();
 })
