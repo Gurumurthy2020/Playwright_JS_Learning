@@ -1,4 +1,4 @@
-const {test,expect} = require('@playwright/test');
+const {test,expect, firefox} = require('@playwright/test');
 // const { allowedNodeEnvironmentFlags } = require('process');
 
 test('practise session',async({page})=>
@@ -60,7 +60,7 @@ test("third practise child window",async({browser})=>
  
 });
 
-test.only("practising end to end",async({page})=>
+test("practising end to end",async({page})=>
 {
     const expectedProductName="Fancy Green Top";
     await page.goto("https://automationexercise.com/login");
@@ -89,8 +89,70 @@ test.only("practising end to end",async({page})=>
     await expect(bool).toBeTruthy();
 
     await page.locator("text=Proceed To Checkout").click();
-    expect(await page.locator("text=Address Details").isVisible());
+    const addressdetails=page.locator("text=Address Details").isVisible();
+    await expect(addressdetails).toBeTruthy();
     await page.locator("text=Place Order").click();
 })
 
 
+test("child window practise",async({browser})=>
+  {
+   
+    const context= await browser.newContext();
+    const page=await context.newPage();
+    await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
+    const doclink=await page.locator("a.blinkingText");
+    const [newpage]=await Promise.all([
+      context.waitForEvent('page'),
+      doclink.click()
+    ])
+    await expect(newpage).toHaveTitle("RS Academy");
+    const text=await newpage.locator(".inner-box h1").textContent();
+    expect(text.includes("Documents request")).toBeTruthy();
+    await page.bringToFront();
+
+
+})
+
+test("e2e with a new page",async({page})=>
+{
+  await page.goto("https://practice.expandtesting.com/");
+  await page.locator("a.my-link").nth(1).scrollIntoViewIfNeeded();
+  await page.locator("a.my-link").nth(1).click();
+  await expect(page).toHaveTitle("Test Login Page for Automation Testing Practice");
+  await page.locator("[name='username']").fill("practice");
+  await page.locator("[type='password']").fill("asd!");
+  await page.locator("[type='submit']").click();
+  const invalidpassword=await page.locator("text=Your password is invalid!").textContent();
+  expect(invalidpassword.includes("Your password is invalid!")).toBeTruthy();
+  await page.locator("[name='username']").fill("practice");
+  await page.locator("[type='password']").fill("SuperSecretPassword!");
+  await page.locator("[type='submit']").click();
+  const loggdinmsg=await page.locator("text=You logged into a secure area!").textContent();
+  expect(loggdinmsg.includes("You logged into a secure area!")).toBeTruthy();
+  await page.locator(".icon-signout").click();
+  const logoutmsg=await page.locator("text=You logged out of the secure area!").textContent();
+  expect(logoutmsg.includes("You logged out of the secure area!")).toBeTruthy();
+  await page.pause();
+})
+
+test.only("e2e with multiple windows",async({browser})=>{
+  const context=await browser.newContext();
+  const page= await context.newPage();
+  await page.goto("https://practice.expandtesting.com/");
+  await page.locator("[href='/windows']").first().scrollIntoViewIfNeeded();
+  await page.locator("[href='/windows']").first().click();
+  
+  
+  await expect(page).toHaveTitle("Automation Testing Practice Website for QA and Developers | UI and API");
+  const windowslink=await page.locator("[href='/windows/new']");
+  const [newpage]=await Promise.all([
+    context.waitForEvent('page'),
+    windowslink.click()
+  ])
+
+  const newwindowmsg=await newpage.locator("div.example").textContent();
+  expect(newwindowmsg.includes("Example of a new window page for Automation Testing Practice")).toBeTruthy();
+  await page.bringToFront();
+
+})

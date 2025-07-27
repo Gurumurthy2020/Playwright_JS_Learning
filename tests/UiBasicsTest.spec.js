@@ -54,7 +54,7 @@ test('@Child windows hadl', async ({browser})=>
     const userName = page.locator('#username');
     await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
     const documentLink = page.locator("[href*='documents-request']");
- 
+   // making sycnhronous to asynchronous
     const [newPage]=await Promise.all(
    [
       context.waitForEvent('page'),//listen for any new page pending,rejected,fulfilled
@@ -124,8 +124,34 @@ test.only("end to end scenarios",async({page})=>{
          break;
       }
       }
-     await page.pause();
+    await expect (page.locator(".user__name [type='text']").first()).toHaveText("guruishu2016@gmail.com");
+    await page.locator(".action__submit").click();
+    const ordermsg=await page.locator(".hero-primary").textContent();
+    expect(ordermsg).toEqual(" Thankyou for the order. ")
+    const ordernumber=await page.locator(".em-spacer-1 .ng-star-inserted").textContent();
+    console.log(ordernumber);
+    
+    await page.locator("[style*='margin-top']").nth(2).click();
+    await page.locator("tbody").waitFor();
+    const ordercount=await page.locator("tbody tr");
+   // await page.pause();
 
-
+    for(let i=0;i<await ordercount.count();i++)
+    {
+      const roworderid= await ordercount.nth(i).locator("th").textContent()
+      if(ordernumber.includes(roworderid))
+      {
+         await ordercount.nth(i).locator("button").first().click();
+         break;
+      }
+    }
+    const orderpagetext=await page.locator("text= order summary ").textContent();
+   // expect(orderpagetext).toContain(" order summary ");
+    expect(orderpagetext.includes(" order summary ")).toBeTruthy();
+    const orderiddetails=await page.locator("div.col-text").textContent();
+    console.log("new"+orderiddetails);
+    console.log("new 1"+ordernumber);
+    expect(ordernumber.includes(orderiddetails)).toBeTruthy();
+     
 
 })
