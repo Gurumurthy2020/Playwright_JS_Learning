@@ -84,7 +84,7 @@ test('@Child windows hadl', async ({browser})=>
   await page.getByRole('button', { name: 'Sign In' }).click();
 });
 
-test.only("end to end scenarios",async({page})=>{
+test("end to end scenarios",async({page})=>{
  const email = "guruishu2016@gmail.com";
    const productName = 'ZARA COAT 3';
    const products = page.locator(".card-body");
@@ -153,5 +153,22 @@ test.only("end to end scenarios",async({page})=>{
     console.log("new 1"+ordernumber);
     expect(ordernumber.includes(orderiddetails)).toBeTruthy();
      
+
+})
+
+test.only("advance locators",async({page})=>
+{
+   await page.goto("https://rahulshettyacademy.com/angularpractice/");
+   await page.getByLabel("Check me out if you Love IceCreams!").check();
+   await page.getByLabel("Employed").check();
+   await page.getByLabel("Gender").selectOption("Female");
+   await page.getByPlaceholder("password").fill("abc123");
+   await page.getByRole("button",{name:'Submit'}).click();
+   const successmsg=await page.getByText("Success! The Form has been submitted successfully!.").isVisible();
+   expect(successmsg).toBeTruthy();
+   await page.getByRole("link",{name:"Shop"}).click();
+
+   await page.locator("app-card").filter({hasText:"iphone X"}).getByRole("button").click();
+
 
 })
