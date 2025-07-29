@@ -79,7 +79,7 @@ test("practising end to end",async({page})=>
 
   if (itemText?.trim() === expectedProductName) {
     console.log(itemText);
-    await page.locator(".productinfo a").nth(i).locator('text=Add to cart').click();
+    await page.locator("  ").nth(i).locator('text=Add to cart').click();
     break; // Optional: stop after adding the desired product
   }
 }
@@ -157,7 +157,7 @@ test("e2e with multiple windows",async({browser})=>{
 
 })
 
-test.only("practising chain of locators",async({page})=>
+test("practising chain of locators",async({page})=>
 {
   await page.goto("https://practice.expandtesting.com/locators#google_vignette");
   await page.locator("table.legacy-table").scrollIntoViewIfNeeded();
@@ -188,4 +188,21 @@ test.only("practising chain of locators",async({page})=>
       }
     }     
         //await page.pause();
+})
+
+test.only("Practising getbyrole and filter",async({page})=>
+{
+    const expectedProductName="Fancy Green Top";
+    await page.goto("https://automationexercise.com/login");
+    await page.locator("[data-qa='login-email']").fill("Muruga@2025");
+    await page.locator("[data-qa='login-password']").fill("Muruga@2025");
+    await page.locator("[data-qa='login-button']").click();
+    await expect(page).toHaveTitle("Automation Exercise");
+
+    const selectited=await page.locator(".productinfo").filter({hasText:"Winter Top"}).first();
+    await selectited.scrollIntoViewIfNeeded();
+    const result=await page.locator(".productinfo").filter({hasText:"Winter Top"}).first().getByText("Add to cart").isVisible();
+    console.log(result);
+    await page.locator(".productinfo").filter({hasText:"Winter Top"}).first().getByText("Add to cart").click();
+    
 })
