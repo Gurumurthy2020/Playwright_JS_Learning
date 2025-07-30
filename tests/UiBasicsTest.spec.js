@@ -156,7 +156,7 @@ test("end to end scenarios",async({page})=>{
 
 })
 
-test.only("advance locators",async({page})=>
+test("advance locators",async({page})=>
 {
    await page.goto("https://rahulshettyacademy.com/angularpractice/");
    await page.getByLabel("Check me out if you Love IceCreams!").check();
@@ -171,4 +171,21 @@ test.only("advance locators",async({page})=>
    await page.locator("app-card").filter({hasText:"iphone X"}).getByRole("button").click();
 
 
+})
+
+test.only("e2e using advance locators",async({page})=>
+{
+   await page.goto("https://rahulshettyacademy.com/client/#/auth/login");
+   await page.getByPlaceholder("email@example.com").fill("guruishu2016@gmail.com");
+   await page.getByPlaceholder("enter your passsword").fill("Muruga2025");
+   await page.getByRole("button",{name:"Login"}).click();
+   await expect(page).toHaveTitle("Let's Shop");
+   await page.locator("div.card-body").filter({hasText:"ZARA COAT 3"}).getByRole("button",{name:"Add to Cart"}).click();
+   await page.getByRole("listitem").getByText("Cart").click();
+   await page.getByRole("button",{name:"Checkout"}).click();
+   await page.getByPlaceholder("Select Country").pressSequentially("Ind");
+   await page.getByRole("button",{name:" India"}).nth(1).click();
+   await page.getByText("Place Order ").click();
+   await page.getByText("Thankyou for the order.").isVisible();
+   await page.pause();
 })
