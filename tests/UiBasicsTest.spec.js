@@ -189,3 +189,4 @@ test.only("e2e using advance locators",async({page})=>
    await page.getByText("Thankyou for the order.").isVisible();
    await page.pause();
 })
+
