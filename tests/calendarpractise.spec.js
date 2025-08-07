@@ -16,11 +16,13 @@ test.only("calendar testing",async({page})=>{
     await page.getByText(date).click();
  
     const input=await page.locator(".react-date-picker__inputGroup input");
-    for(let i=0;i<await input.length;i++){
+    for(let i=0;i<await input.length;i++)
+      {
             const actual=await input[i].getAttribute("value");
             console.log(expect(actual).toEqual(expected[i]));    
             expect(actual).toEqual(expected[i]);
-    }
-   
+            console.log(input.length());
+     }
+  
 
 })
