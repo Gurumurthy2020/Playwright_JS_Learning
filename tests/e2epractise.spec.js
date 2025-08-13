@@ -34,5 +34,22 @@ test.only("practising e2e scenario ",async({page})=>{
 
    await expect(page.locator(`text=${empid}`)).toBeVisible();
 
+//    await expect(locator).toBeVisible();
+//    await expect(locator).toBeHidden()
+// await expect(locator).toHaveText(‘Welcome’);
+// await expect(locator).toContainText(‘Success’);
+// await expect(locator).toHaveAttribute(‘type’, ’email’);
+// await expect(locator).toHaveCount(3);
+// await expect(locator).toHaveClass(/active/);
+// await expect(locator).toHaveValue(‘testuser’);
+// await expect.soft(locator1).toHaveText(‘Welcome’);
+// await expect.soft(locator2).toBeVisible();
+// await expect.soft(locator3).toHaveValue(‘John’);
+
+
+
+
+
+
 
 })
