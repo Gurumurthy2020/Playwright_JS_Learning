@@ -14,14 +14,17 @@ const config={
   expect:{
   timeout : 5000,
   },
-  reporter:'html',
+  reporter:[['html'],['allure-playwright']],
+  //retries:2,
 
   use: {
     
     browserName:'chromium',
+    viewport:{width:1536,height:960},
     headless: false,
     screenshot:'on',
-     trace: 'retain-on-failure'
+    trace: 'off',
+    video:'off'
   
   },
 };

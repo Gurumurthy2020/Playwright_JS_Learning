@@ -1,5 +1,6 @@
 const{test,expect} = require('@playwright/test');
 
+test.use({viewport:{width:959,height:459}})
 test.only("assertions practise",async({page})=>
 {
     await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
@@ -11,13 +12,16 @@ test.only("assertions practise",async({page})=>
     await page.locator("[name='password']").fill("learning");
     await expect(submitbutton).toBeVisible();
 
-    await page.getByRole("button",{name:"submit"}).click();
+    await page.getByRole("button",{name: 'Sign In'}).click();
 
   //  await submitbutton.click();
     //const expectdtitle=page.title("ProtoCommerce");
     await expect(page).toHaveTitle("ProtoCommerce");
-        await page.pause();
-    await page.locator().waitFor({'state':'visible'});
+    //    await page.pause();
+   // await page.locator().waitFor({'state':'visible'});
+    const shoname=await page.locator("//a[contains(text(),'ProtoCommerce Home')]").textContent();
+    console.log(shoname);
+    expect(shoname==="ProtoCommerce Home").toBeTruthy();
 
 })
 
