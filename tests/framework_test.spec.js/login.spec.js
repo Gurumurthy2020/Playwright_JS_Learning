@@ -8,6 +8,8 @@ test("login page",async({page})=>
     const loginpage= new LoginPage(page);
     await loginpage.loginToApplication();
     const homepage= new HomePage(page);
+    await homepage.verifyManagerOptions();
    await homepage.logoutFromApplication();
+   await loginpage.verifyingLoginScreen();
 
 })
